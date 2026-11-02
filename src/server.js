@@ -44,10 +44,22 @@ app.set('trust proxy', 1); // Render je iza reverse proxyja (HTTPS)
 // ---------- M2M pristupne točke (OAuth2 Client Credentials) ----------
 // Provjera JWT pristupnog tokena koji izdaje Auth0 za naš API (audience).
 // Bez tokena / neispravan token -> 401, nedostaje scope -> 403.
-const checkJwt = jwtAuth({
+const jwtCheck = jwtAuth({
   issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
   audience: process.env.API_AUDIENCE,
   tokenSigningAlg: 'RS256',
+});
+
+// Biblioteka za neispravno zaglavlje Authorization (npr. "Bearer " bez tokena
+// ili "Basic ...") vraća 400; prema zadatku to je nevaljan token -> 401.
+const checkJwt = (req, res, next) => jwtCheck(req, res, (err) => {
+  if (err && (err.status || err.statusCode) === 400) {
+    err.status = err.statusCode = 401;
+    err.code = 'invalid_token';
+    err.message = err.message || 'Pristupni token nedostaje ili nije valjan.';
+    err.headers = { 'WWW-Authenticate': 'Bearer realm="api", error="invalid_token"' };
+  }
+  next(err);
 });
 
 const api = express.Router();

@@ -1,4 +1,4 @@
-// Jednostavni HTML predlošci (bez dodatnog templating enginea).
+
 
 function esc(value) {
   return String(value ?? '')

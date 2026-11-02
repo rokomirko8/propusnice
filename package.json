@@ -1,0 +1,22 @@
+{
+  "name": "propusnice",
+  "version": "1.0.0",
+  "description": "Digitalne propusnice — Express + Auth0 (OIDC + M2M) + PostgreSQL",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "dotenv": "^18.0.9",
+    "express": "^4.22.3",
+    "express-oauth2-jwt-bearer": "^1.11.0",
+    "express-openid-connect": "^3.4.0",
+    "pg": "^8.23.1",
+    "qrcode": "^1.5.4"
+  },
+  "engines": {
+    "node": ">=20.19"
+  },
+  "private": true
+}

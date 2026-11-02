@@ -3,8 +3,6 @@ const { Pool } = require('pg');
 
 const connectionString = process.env.DATABASE_URL;
 
-// Renderova "External Database URL" traži SSL, "Internal" ne.
-// DB_SSL=true/false ima prednost; inače se SSL uključuje za *.render.com hostove.
 function sslConfig() {
   if (process.env.DB_SSL === 'true') return { rejectUnauthorized: false };
   if (process.env.DB_SSL === 'false') return false;
